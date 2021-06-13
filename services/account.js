@@ -11,5 +11,10 @@ module.exports = {
                 resolve(result);
             });
         });
+    },
+    onLogin(value) {
+        return new Promise((resolve,reject) => {
+            resolve(value);
+        });
     }
 };
