@@ -26,7 +26,7 @@ router.post('/login', [
     try {
         req.validate();
         const userLogin = await onLogin(req.body);
-        res.json(userLogin);
+        res.json(req.body);
     }
     catch (ex) {
         res.error(ex);
