@@ -1,6 +1,6 @@
 const { Result } = require('express-validator');
 const connection = require('../configs/database');
-const {pasworld_hash} = require('../configs/security')
+const {pasworld_hash, password_verify} = require('../configs/security')
 
 module.exports = {
     onRegister(value){
@@ -14,7 +14,19 @@ module.exports = {
     },
     onLogin(value) {
         return new Promise((resolve,reject) => {
-            resolve(value);
+            connection.query('SELECT * FROM tb_users WHERE u_username=?', [value.u_username], (error,result) => {
+                if (error) return reject(error);
+                if (result.length > 0) {
+                    const userLogin = result[0];
+                    if (password_verify(value.u_password,userLogin.u_password)){
+                        delete userLogin.u_password;
+                        delete userLogin.u_created;
+                        delete userLogin.u_updated;
+                        return resolve(userLogin);
+                    }
+                }
+                reject(new Error('Invalid username or password'));
+            })
         });
     }
 };
