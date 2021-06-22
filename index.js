@@ -16,8 +16,8 @@ server.use(expresssSession({
 
 
 //ตั้งค่าการ Parse ตัวแปรเมื่อ client ส่งข้อมูลเข้ามา
-server.use(bodyParser.urlencoded({ extended: false }))
-server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({ extended: false , limit: '500MB'}))
+server.use(bodyParser.json({limit: '500MB'}))
 
 // สร้าง custom function
 server.use(require('./configs/middlewaer'));

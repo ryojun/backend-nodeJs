@@ -1,8 +1,10 @@
 const router = require('express').Router();
+const {authenticated} = require('../configs/security')
 const account = require('./account');
-const imagesmanager = require('./imagesmanager');
-//Account route
+
+// Account route
 router.use('/account', account);
-router.use('/imagesmanager', imagesmanager);
+// Equipment route
+router.use('/equipment', authenticated, require('./equipment'));
 
 module.exports = router;
