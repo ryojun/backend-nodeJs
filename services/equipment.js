@@ -23,5 +23,25 @@ module.exports = {
                 resolve(result)
             })
         });
+    },
+    onUpdate(id, value){
+        return new Promise((resolve, reject) => {
+            const $query = `
+                UPDATE tb_equipments SET
+                    eq_name = ?,
+                    eq_detail =?,
+                    eq_image = ?
+                WHERE
+                    eq_id = ?`;
+            connection.query($query, [
+                value.eq_name,
+                value.eq_detail,
+                value.eq_image,
+                id
+            ], (error,result) => {
+                if (error) return reject(error);
+                resolve(result)
+            })
+        });
     }
 };
