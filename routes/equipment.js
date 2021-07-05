@@ -1,14 +1,21 @@
 const router = require('express').Router();
 const service = require('../services/equipment');
-const { check, validationResult } = require('express-validator/check');
+const { check, query } = require('express-validator/check');
 const base64Img = require('base64-img');
 const fs = require('fs');
 const path = require('path');
 const uploadDir = path.resolve('uploads');
 const equipDir = path.join(uploadDir ,'equipments');
 
-router.get('/',(req,res) => {
-    res.json({message: 'Equipment Page GET'})
+//แสดงข้อมูลอุปกรณ์
+router.get('/',[
+    query('page').not().isEmpty().isInt().toInt()
+], async (req,res) => {
+    try{
+        req.validate();
+        res.json(await service.find())
+    }
+    catch(ex){ res.error(ex); }
 });
 
 // เพิ่มข้อมูล
